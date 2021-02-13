@@ -1,6 +1,5 @@
 import discord
 import json
-
 from help import HelpCommand
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
