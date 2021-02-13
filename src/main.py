@@ -11,14 +11,12 @@ client = commands.Bot(command_prefix = '/')
 client.remove_command("help")
 
 token = os.getenv('DISCORD_TOKEN')
+subject = ""
+response = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + subject)
 
-response = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:nonfiction")
-
-jsonBookList = open('books.json')
 bookList = {}
 
-
-extensionList = ['cogs.help']
+extensionList = ['cogs.help', 'cogs.searchSubject']
 
 if __name__ == '__main__':
   for extension in extensionList:
@@ -27,8 +25,10 @@ if __name__ == '__main__':
 @client.event
 async def on_ready():
     print("Bot is ready.")
+    jsonBookList = open('books.json')
     bookList = json.load(jsonBookList)
     print(bookList)
     print(response)
+
 
 client.run(token)
