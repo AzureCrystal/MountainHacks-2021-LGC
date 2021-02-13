@@ -6,13 +6,13 @@ from discord.ext.commands import CommandNotFound
 client = commands.Bot(command_prefix = '/')
 client.remove_command("help")
 
-tokenFile = open('token.txt', 'r')
+tokenFile = open('D:\Hack\MountainHacks-2021-LGC\src\\token.txt', 'r')
 token = tokenFile.read()
 
 # googleAPIKeyFile = open('googleApiKey.txt', 'r')
 # googleAPIKey = googleAPIKeyFile.read()
 
-jsonBookList = open('books.json')
+jsonBookList = open('D:\Hack\MountainHacks-2021-LGC\src\\books.json')
 bookList = {}
 
 extensionList = ['cogs.help']
