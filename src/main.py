@@ -1,10 +1,10 @@
 import discord
 import json
-from help import HelpCommand
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 
 client = commands.Bot(command_prefix = '/')
+client.remove_command("help")
 
 x = {
   "books": [
@@ -13,11 +13,14 @@ x = {
   ]
 }
 
+extensionList = ['cogs.help']
+
+if __name__ == '__main__':
+  for extension in extensionList:
+    client.load_extension(extension)
+
 @client.event
 async def on_ready():
     print("Bot is ready.")
 
-help
-
-
-client.run('ODEwMjIzMjE1NjQwNTc2MDEw.YCghKw.R3qcwbgsQVSBhPwX2nl8F4tk73Y')
+client.run('NzEzMjE1Mzk3MzczMTQ5MjI0.Xsdiig.axcHpLys2eiASOOeb1ADZuwuZq8')
