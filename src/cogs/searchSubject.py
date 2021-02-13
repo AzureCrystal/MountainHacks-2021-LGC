@@ -20,7 +20,8 @@ class SearchSubject(commands.Cog):
         if "publishedDate" in googleBooksList[0]["volumeInfo"]: 
             result += (str(googleBooksList[0]["volumeInfo"]["publishedDate"]) + "\n")
         if "description" in googleBooksList[0]["volumeInfo"]: 
-            result += (str(googleBooksList[0]["volumeInfo"]["description"] ) + "\n```")
+            result += str(googleBooksList[0]["volumeInfo"]["description"] )
+        result += "\n```"
         await ctx.send(result)
         
         
