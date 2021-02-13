@@ -1,3 +1,5 @@
 .vscode/settings.json
 **/__pycache__
-.envcom
+.env
+googleApiKey
+client_secrets.json
