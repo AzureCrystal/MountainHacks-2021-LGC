@@ -1,10 +1,10 @@
 import discord
 import json
+from help import HelpCommand
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 
 client = commands.Bot(command_prefix = '/')
-client.remove_command("help")
 
 x = {
   "books": [
@@ -17,9 +17,7 @@ x = {
 async def on_ready():
     print("Bot is ready.")
 
-@client.command()
-async def help(ctx, *args):
-    argCount = len(args)
-    await ctx.send("Nothing here")
+help
+
 
 client.run('ODEwMjIzMjE1NjQwNTc2MDEw.YCghKw.R3qcwbgsQVSBhPwX2nl8F4tk73Y')
