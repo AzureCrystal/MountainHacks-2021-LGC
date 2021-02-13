@@ -2,6 +2,7 @@ import discord
 import requests
 import os
 import json
+import os
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 from dotenv import load_dotenv
