@@ -6,12 +6,11 @@ from discord.ext.commands import CommandNotFound
 client = commands.Bot(command_prefix = '/')
 client.remove_command("help")
 
-x = {
-  "books": [
-    {"name": "BMW 230"},
-    {"name": "Ford Edge"}
-  ]
-}
+tokenFile = open('token.txt', 'r')
+token = tokenFile.read()
+
+jsonBookList = open('books.json')
+bookList = {}
 
 extensionList = ['cogs.help']
 
@@ -22,5 +21,7 @@ if __name__ == '__main__':
 @client.event
 async def on_ready():
     print("Bot is ready.")
+    bookList = json.load(jsonBookList)
+    print(bookList)
 
-client.run('NzEzMjE1Mzk3MzczMTQ5MjI0.Xsdiig.axcHpLys2eiASOOeb1ADZuwuZq8')
+client.run(token)
