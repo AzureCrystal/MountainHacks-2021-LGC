@@ -15,7 +15,7 @@ class HelpCommand:
         self.argCount = len(args)
         await self.send("hi")
 
-    def send(self ,message):
+    def send(self, message):
         self.bot.send(message)
 
     def setup(self, bot):
