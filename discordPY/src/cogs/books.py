@@ -1,8 +1,13 @@
 import discord
 import json
 import os
+import sys
+sys.path.insert(0, '../components/')
 from discord.ext import commands
 from components.dupes import checkDupes
+from components.postJson import postFunc
+from components.getJson import getUserData
+#from discordPY.src.components import checkDupes, postFunc, getUserData
 
 directory = os.path.dirname(os.path.abspath(__file__))
 bookPath = os.path.join(directory, '../assets/books.json')
@@ -39,8 +44,6 @@ class BookCommand(commands.Cog):
                         data = getUserData(usrId)
                         data["books"].pop(index)
                         await ctx.send("Book Removed!")
-                        with open(bookPath, 'w') as f:
-                            json.dump(data, f, indent = 4)
                     else:
                         await ctx.send("Parameter out of bounds.")
                 else:
@@ -55,13 +58,12 @@ class BookCommand(commands.Cog):
         usrId = ctx.message.author.id
         if len(args) != 0:
             books_loaded = getUserData(usrId)
-            books_loaded["books"].append({"name":' '.join(str(elem) for elem in args)})
-            if(not checkDupes(' '.join(str(elem) for elem in args)), usrId):
+            tmpStr = ' '.join(str(elem) for elem in args)
+            books_loaded["books"].append({"name" : tmpStr})
+            if (not checkDupes(tmpStr, usrId)):
                 await ctx.send("This book is already in your library!")
             else:
-                with open(bookPath,'w') as json_dumped :
-                    json.dump(books_loaded,json_dumped,indent = 4,sort_keys = True)
-
+                postFunc({"name":' '.join(str(elem) for elem in args)}, usrId)
                 await ctx.send("Book added!")
         else:
             await ctx.send("Missing parameter. Use: /addbook <Title>")

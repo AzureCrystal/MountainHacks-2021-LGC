@@ -2,10 +2,12 @@ import discord
 import requests
 import os
 import json
+import sys
 from discord.ext import commands
-from components.post import postFunc
 from components.dupes import checkDupes
-from components.get import getUserData
+from components.postJson import postFunc
+from components.getJson import getUserData
+#from discordPY.src.components import checkDupes, postFunc, getUserData
 
 directory = os.path.dirname(os.path.abspath(__file__))
 bookPath = os.path.join(directory, '../assets/books.json')
@@ -75,8 +77,7 @@ class Search(commands.Cog):
                             tempVar = {"name": bookName}
                             listVar.append(tempVar)
                             await ctx.send("Book Added!")
-                            with open(bookPath, 'w') as f:
-                                json.dump(data, f, indent = 4)
+                            postFunc(bookName, usrId)
                         else:
                             await ctx.send("This book is already in your library!")
                     elif str(reaction.emoji) == "❌":

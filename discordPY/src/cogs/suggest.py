@@ -3,9 +3,13 @@ import json
 import os
 import requests
 import random
-from components.dupes import checkDupes
+import sys
+sys.path.insert(0, '../components/')
 from discord.ext import commands
-from components.get import getUserData
+from components.dupes import checkDupes
+from components.postJson import postFunc
+from components.getJson import getUserData
+#from discordPY.src.components import checkDupes, postFunc, getUserData
 
 directory = os.path.dirname(os.path.abspath(__file__))
 bookPath = os.path.join(directory, '../books.json')
@@ -72,8 +76,7 @@ class Suggest(commands.Cog):
                         tempVar = {"name": bookName}
                         listVar.append(tempVar)
                         await ctx.send("Book Added!")
-                        with open(bookPath, 'w') as f:
-                            json.dump(data, f, indent = 4)
+                        postFunc(bookName, usrId)
                     else:
                         await ctx.send("This book is already in your library!")
                 elif str(reaction.emoji) == "❌":
