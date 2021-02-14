@@ -12,6 +12,7 @@ The Discord bot can also store the User's favourite books into a database help i
  - To run the bot, run main.py
  - Open the tomcatBoTServer with intellij
  - Find the BookOfTmrwServerApplication.java file, edit run configurations and change the main file to the BookOfTmrwServerApplication.java file
+ - Run the SpringBoot
  
 # Functions included:
 
