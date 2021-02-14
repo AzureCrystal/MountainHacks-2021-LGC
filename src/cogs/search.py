@@ -1,12 +1,16 @@
 import discord
 import requests
+import os
+import json
 from discord.ext import commands
+
+directory = os.path.dirname(os.path.abspath(__file__))
+bookPath = os.path.join(directory, '../books.json')
 
 class Search(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-    
+   
     @commands.command()
     async def search(self, ctx, *args):
         parameters = ["title", "author", "subject"]
@@ -18,6 +22,7 @@ class Search(commands.Cog):
                 result = "```\n"
                 if "title" in googleBooksList[0]["volumeInfo"]:
                     result += (str(googleBooksList[0]["volumeInfo"]["title"]) + "\n")
+                    bookName = str(googleBooksList[0]["volumeInfo"]["title"])
                 if "subtitle" in googleBooksList[0]["volumeInfo"]: 
                     result += (str(googleBooksList[0]["volumeInfo"]["subtitle"]) + "\n")
                 if "authors" in googleBooksList[0]["volumeInfo"]: 
@@ -34,9 +39,14 @@ class Search(commands.Cog):
                 embedMsg = await ctx.send(result)                
                 await embedMsg.add_reaction('\N{WHITE HEAVY CHECK MARK}')
                 confirmation = await self.bot.wait_for("reaction_add", check=check)
-                if confirmation :    
-                    #add the book to the list       
-                    print("something")
+                if confirmation:
+                    with open(bookPath) as json_file:
+                        data = json.load(json_file)
+                        listVar = data["books"]
+                        tempVar = {"name": bookName}
+                        listVar.append(tempVar)
+                    with open(bookPath, 'w') as f:
+                        json.dump(data, f, indent = 4)
             else:
                 await ctx.send("No books found.")
         else:
