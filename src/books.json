@@ -2,6 +2,24 @@
     "books": [
         {
             "name": "Research, development, test, and evaluation, Title II"
+        },
+        {
+            "name": "The Great Gatsby"
+        },
+        {
+            "name": "American Fiction"
+        },
+        {
+            "name": "Gatsby"
+        },
+        {
+            "name": "Lifting As We Climb"
+        },
+        {
+            "name": "The Soul Master"
+        },
+        {
+            "name": "You Were Born to Win"
         }
     ]
 }

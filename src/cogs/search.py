@@ -17,7 +17,7 @@ class Search(commands.Cog):
         bookListLength = 1
         descWordCap = 1000
         if args[0] in parameters:
-            response = requests.get("https://www.googleapis.com/books/v1/volumes?q=" + args[0] + ":" + '\"' + str(args[1]) + '\"')
+            response = requests.get("https://www.googleapis.com/books/v1/volumes?q=" + args[0] + ":" + '\"' + str(args[1]).strip("\"") + '\"')
             if "items" in response.json():
                 if (len(args) == 3):
                     if args[2].isnumeric():
