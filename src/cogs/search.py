@@ -2,7 +2,7 @@ import discord
 import requests
 from discord.ext import commands
 
-class SearchSubject(commands.Cog):
+class Search(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -62,4 +62,4 @@ class SearchSubject(commands.Cog):
         
 
 def setup(bot):
-    bot.add_cog(SearchSubject(bot))
+    bot.add_cog(Search(bot))
