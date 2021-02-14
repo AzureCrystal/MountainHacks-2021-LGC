@@ -6,6 +6,7 @@ class Search(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    
     @commands.command()
     async def search(self, ctx, *args):
         parameters = ["title", "author", "subject"]
@@ -26,12 +27,23 @@ class Search(commands.Cog):
                 if "description" in googleBooksList[0]["volumeInfo"]: 
                     result += str(googleBooksList[0]["volumeInfo"]["description"] )
                 result += "\n```"
-                await ctx.send(result)
+
+                def check(reaction, user):
+                    return user == ctx.author and str(reaction.emoji) in ['\N{WHITE HEAVY CHECK MARK}']
+
+                embedMsg = await ctx.send(result)                
+                await embedMsg.add_reaction('\N{WHITE HEAVY CHECK MARK}')
+                confirmation = await self.bot.wait_for("reaction_add", check=check)
+                if confirmation :    
+                    #add the book to the list       
+                    print("something")
             else:
                 await ctx.send("No books found.")
         else:
             await ctx.send("Invalid parameters. Use: /search <type> <query>")
-        
+
+    
+
 
 def setup(bot):
     bot.add_cog(Search(bot))
