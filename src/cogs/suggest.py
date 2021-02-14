@@ -3,7 +3,7 @@ import json
 import os
 import requests
 import random
-
+from components.dupes import checkDupes
 from discord.ext import commands
 
 directory = os.path.dirname(os.path.abspath(__file__))
@@ -19,7 +19,10 @@ class Suggest(commands.Cog):
         if len(args) >= 1: 
             initResp = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + '\"' + str(args[0]).strip("\"") + '\"')
             if initResp.json()["totalItems"] != 0:
-                maxVal = initResp.json()["totalItems"]    
+                if initResp.json()["totalItems"] >= 40:
+                    maxVal = 40
+                else:
+                    maxVal = initResp.json()["totalItems"]
                 response = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + '\"' + str(args[0]).strip("\"") + '\"' + "&maxResults=" + str(maxVal))
                 random.seed()
                 print(maxVal)
@@ -61,14 +64,17 @@ class Suggest(commands.Cog):
 
                 if str(reaction.emoji) == "✅":
                     await embedMsg.remove_reaction(reaction, user)
-                    with open(bookPath) as json_file:
-                        data = json.load(json_file)
-                        listVar = data["books"]
-                        tempVar = {"name": bookName}
-                        listVar.append(tempVar)
-                        await ctx.send("Book Added!")
-                    with open(bookPath, 'w') as f:
-                        json.dump(data, f, indent = 4)
+                    if checkDupes(bookName):
+                        with open(bookPath) as json_file:
+                            data = json.load(json_file)
+                            listVar = data["books"]
+                            tempVar = {"name": bookName}
+                            listVar.append(tempVar)
+                            await ctx.send("Book Added!")
+                        with open(bookPath, 'w') as f:
+                            json.dump(data, f, indent = 4)
+                    else:
+                        await ctx.send("This book is already in your library!")
                 elif str(reaction.emoji) == "❌":
                     await embedMsg.remove_reaction(reaction, user)
             else:

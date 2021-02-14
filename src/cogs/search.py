@@ -3,6 +3,7 @@ import requests
 import os
 import json
 from discord.ext import commands
+from components.dupes import checkDupes
 
 directory = os.path.dirname(os.path.abspath(__file__))
 bookPath = os.path.join(directory, '../assets/books.json')
@@ -17,9 +18,7 @@ class Search(commands.Cog):
         bookListLength = 1
         descWordCap = 1000
         if args[0] in parameters:
-            initResp = requests.get("https://www.googleapis.com/books/v1/volumes?q=" + args[0] + ":" + '\"' + str(args[1]).strip("\"") + '\"')
-            maxVal = initResp.json()["totalItems"]
-            response = requests.get("https://www.googleapis.com/books/v1/volumes?q=" + args[0] + ":" + '\"' + str(args[1]).strip("\"") + '\"' + "&maxResults=" + str(maxVal))
+            response = requests.get("https://www.googleapis.com/books/v1/volumes?q=" + args[0] + ":" + '\"' + str(args[1]).strip("\"") + '\"' + "&maxResults=40")
             if "items" in response.json():
                 if (len(args) == 3):
                     if args[2].isnumeric():
@@ -63,19 +62,22 @@ class Search(commands.Cog):
 
                     if str(reaction.emoji) == "✅":
                         await embedMsg.remove_reaction(reaction, user)
-                        with open(bookPath) as json_file:
-                            data = json.load(json_file)
-                            listVar = data["books"]
-                            tempVar = {"name": bookName}
-                            listVar.append(tempVar)
-                            await ctx.send("Book Added!")
-                        with open(bookPath, 'w') as f:
-                            json.dump(data, f, indent = 4)
+                        if checkDupes(bookName):
+                            with open(bookPath) as json_file:
+                                data = json.load(json_file)
+                                listVar = data["books"]
+                                tempVar = {"name": bookName}
+                                listVar.append(tempVar)
+                                await ctx.send("Book Added!")
+                            with open(bookPath, 'w') as f:
+                                json.dump(data, f, indent = 4)
+                        else:
+                            await ctx.send("This book is already in your library!")
                     elif str(reaction.emoji) == "❌":
                         await embedMsg.remove_reaction(reaction, user)
 
             else:
-                ctx.send("No books found.")
+                await ctx.send("No books found.")
         else:
             await ctx.send("Invalid parameters. Use: /search <type> <query>")
 
