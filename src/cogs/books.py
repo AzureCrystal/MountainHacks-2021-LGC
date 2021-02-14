@@ -17,7 +17,7 @@ class BookCommand(commands.Cog):
         bookList = json.load(jsonBookList)
         for i in range(len(bookList["books"])):
             await ctx.send(bookList["books"][i]["name"])
-        print()
+        
 
     
 
