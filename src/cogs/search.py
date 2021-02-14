@@ -57,8 +57,20 @@ class Search(commands.Cog):
         else:
             await ctx.send("Invalid parameters. Use: /search <type> <query>")
 
-   
+    @commands.command()
+    async def availability(self, ctx, *args):
+        response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + '\"' + str(args[1]) + '\"')
+        if "items" in response.json():
+            googleBooksList = response.json()['items']
+            result = ""
+            result += ("PDF available: " + googleBooksList["pdf"] + "\n")
+            result += ("Access info: " + googleBooksList["accessinfo"] + "\n")
+            result += ("Sales info: " + googleBooksList["saleInfo"] + "\n")
+            await ctx.send(result)
+        else:
+            await ctx.send("Invalid ISBN given. Use: /availability <ISBN number>")
 
+   
 
 def setup(bot):
     bot.add_cog(Search(bot))
