@@ -79,7 +79,7 @@ class Search(commands.Cog):
             else:
                 await ctx.send("No books found.")
         else:
-            await ctx.send("Invalid parameters. Use: /search <type> <query>")
+            await ctx.send("Invalid parameters. Use: /search <Type> <\"Search term\"> <#ofResults>")
 
 
     @commands.command()
