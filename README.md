@@ -6,6 +6,8 @@ A Discord bot that searches a library of books and gives suggestions based on se
 
 The Discord bot can also store the User's favourite books into a database help in REST API made with Springboot(Tomcat). Each individual User will have their own book list using this method.
 # How to Run:
+ - Using Python 3.7.9
+ - Install dependencies using pip install -r requirements.txt
  - Create a file called .env in the src folder
  - Get a Discord Bot API and use your API key in .env using:
  - DISCORD_TOKEN="<YOUR_TOKEN>"
