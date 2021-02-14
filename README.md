@@ -5,6 +5,7 @@ The Book of Tomorrow
 A Discord bot that searches a library of books and gives suggestions based on search parameters
 
 Functions included:
+
 A help command 
  - lists out the list of functions for the bot 
  
