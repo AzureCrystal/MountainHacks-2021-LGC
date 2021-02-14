@@ -1,10 +1,19 @@
 # MountainHacks-2021-LGC
 
-The Book of Tomorrow
+The Book of Tomorrow 
 
 A Discord bot that searches a library of books and gives suggestions based on search parameters
 
-Functions included:
+The Discord bot can also store the User's favourite books into a database help in REST API made with Springboot(Tomcat). Each individual User will have their own book list using this method.
+# How to Run:
+ - Create a file called .env in the src folder
+ - Get a Discord Bot API and use your API key in .env using:
+ - DISCORD_TOKEN="<YOUR_TOKEN>"
+ - Open the tomcatBoTServer with intellij
+ - Find the BookOfTmrwServerApplication.java file, edit run configurations and change the main file to the BookOfTmrwServerApplication.java file
+ - To run the bot, run main.py
+ 
+# Functions included:
 
 Help Command (/help)
  - lists out the list of commands for the bot 
@@ -24,12 +33,4 @@ Delete Book from List (/delbook)
 Print Book List (/printbook)
  - prints the user's book list
  
-Notes:
- - Each user will have it's own indiviual library booklist (NOT IMPLEMENTED)
- 
-How to Run:
- - Create a file called .env in the src folder
- - Get a Discord Bot API and use your API key in .env using:
- - DISCORD_TOKEN="<YOUR_TOKEN>"
- - To run the bot, run main.py
- 
+

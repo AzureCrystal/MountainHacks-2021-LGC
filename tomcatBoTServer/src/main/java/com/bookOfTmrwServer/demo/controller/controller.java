@@ -76,4 +76,36 @@ public class controller {
             e.printStackTrace();
         }
     }
+
+    @PostMapping("/api/userList/delBook/{id}")
+    public void deleteBookFromUser(@PathVariable String id, @RequestBody Book book, HttpServletResponse response){
+        try{
+
+            ObjectMapper mapper = new ObjectMapper();
+
+            for (int i =0 ; i < userArrayList.size(); i++){
+                if (userArrayList.get(i).getId().equals(id)){
+                    Boolean isBookDeleted = userArrayList.get(i).delBookFromList(book);
+                    if (isBookDeleted) {
+                        response.setStatus(201);
+                        mapper.writeValue(Paths.get("src/main/resources/data/userBookList.json").toFile(), userArrayList);
+                        return;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+
+            response.resetBuffer();
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.getOutputStream().print("Can't find ID");
+            response.flushBuffer();
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Id invalid");
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }

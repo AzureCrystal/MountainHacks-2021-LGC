@@ -22,6 +22,16 @@ public class User {
         return this.bookArrayList;
     }
 
+    public Boolean delBookFromList(Book book){
+        for (int i = 0; i < bookArrayList.size(); i++){
+            if (bookArrayList.get(i).getName().equals(book.getName())){
+                bookArrayList.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String getId(){
         return this.id;
     }
