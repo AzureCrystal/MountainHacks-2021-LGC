@@ -42,6 +42,9 @@ class Search(commands.Cog):
                         for i in range(len(googleBooksList[booksIterator]["volumeInfo"]["authors"])):
                             result += (str(googleBooksList[booksIterator]["volumeInfo"]["authors"][i]) + ", " )
                         result += "\n"
+                    if "industryIdentifiers" in googleBooksList[booksIterator]["volumeInfo"]: 
+                        for i in range(len(googleBooksList[booksIterator]["volumeInfo"]["industryIdentifiers"])):
+                            result += (str(googleBooksList[booksIterator]["volumeInfo"]["industryIdentifiers"][i]["type"]) + ": " + str(googleBooksList[booksIterator]["volumeInfo"]["industryIdentifiers"][i]["identifier"]) + "\n")
                     if "publishedDate" in googleBooksList[booksIterator]["volumeInfo"]: 
                         result += ("Published date: " + googleBooksList[booksIterator]["volumeInfo"]["publishedDate"] + "\n")
                     if "description" in googleBooksList[booksIterator]["volumeInfo"]: 
@@ -87,7 +90,7 @@ class Search(commands.Cog):
             result += ("PDF available: " + str(googleBooksList["accessInfo"]["pdf"]["isAvailable"]) + "\n")
             result += ("Ebook available: " + str(googleBooksList["saleInfo"]["isEbook"]) + "\n")
             result += ("Saleability: " + str(googleBooksList["saleInfo"]["saleability"]) + "\n")
-            
+            result += ("Country: " + str(googleBooksList["saleInfo"]["country"]) + "\n")
             await ctx.send(result)
         else:
             await ctx.send("Invalid ISBN given. Use: /availability <ISBN number>")
@@ -96,10 +99,13 @@ class Search(commands.Cog):
     async def preview(self, ctx, *args):
         response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" +  str(args[0]) )
         if "items" in response.json():
-            googleBooksList = response.json()['items']
+            googleBooksList = response.json()['items'][0]
             result = ""
-            
-            
+            result += ("Preview Version: " + googleBooksList["volumeInfo"]["contentVersion"] + "\n")
+            result += ("Preview Link: " + googleBooksList["volumeInfo"]["previewLink"] + "\n")
+            result += ("Info Link: " + googleBooksList["volumeInfo"]["infoLink"] + "\n")
+            result += ("Canonical Volume Link: " + googleBooksList["volumeInfo"]["canonicalVolumeLink"] + "\n")
+            await ctx.send(result)
         else:
             await ctx.send("Invalid ISBN given. Use: /availability <ISBN number>")
 
