@@ -1,17 +1,18 @@
 import discord
 import json
 import os
+
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
+from dotenv import load_dotenv
 
+load_dotenv()
 client = commands.Bot(command_prefix = '/')
 client.remove_command("help")
 
 directory = os.path.dirname(os.path.abspath(__file__))
-tokenPath = os.path.join(directory, 'token.txt')
 
-tokenFile = open(tokenPath, 'r')
-token = tokenFile.read()
+token = os.getenv('DISCORD_TOKEN')
 
 # googleAPIKeyFile = open('googleApiKey.txt', 'r')
 # googleAPIKey = googleAPIKeyFile.read()
