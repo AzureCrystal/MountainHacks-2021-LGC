@@ -1,27 +1,20 @@
 import discord
-import json
+import requests
 import os
+import json
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
+from dotenv import load_dotenv
 
+load_dotenv()
 client = commands.Bot(command_prefix = '/')
 client.remove_command("help")
 
-directory = os.path.dirname(os.path.abspath(__file__))
-tokenPath = os.path.join(directory, 'token.txt')
+token = os.getenv('DISCORD_TOKEN')
 
-tokenFile = open(tokenPath, 'r')
-token = tokenFile.read()
-
-# googleAPIKeyFile = open('googleApiKey.txt', 'r')
-# googleAPIKey = googleAPIKeyFile.read()
-
-bookPath = os.path.join(directory, 'books.json')
-jsonBookList = open(bookPath)
 bookList = {}
 
-extensionList = ['cogs.help', 'cogs.books']
-
+extensionList = ['cogs.help', 'cogs.search', 'cogs.books']
 
 if __name__ == '__main__':
   for extension in extensionList:
@@ -30,7 +23,5 @@ if __name__ == '__main__':
 @client.event
 async def on_ready():
     print("Bot is ready.")
-    bookList = json.load(jsonBookList)
-    print(bookList)
 
 client.run(token)
