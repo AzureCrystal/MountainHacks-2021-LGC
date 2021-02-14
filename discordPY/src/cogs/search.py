@@ -3,6 +3,7 @@ import requests
 import os
 import json
 from discord.ext import commands
+from components.post import postFunc
 from components.dupes import checkDupes
 
 directory = os.path.dirname(os.path.abspath(__file__))
@@ -65,6 +66,7 @@ class Search(commands.Cog):
 
                     if str(reaction.emoji) == "✅":
                         await embedMsg.remove_reaction(reaction, user)
+                        postFunc(bookName, user.id) 
                         if checkDupes(bookName):
                             with open(bookPath) as json_file:
                                 data = json.load(json_file)
