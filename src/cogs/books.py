@@ -24,7 +24,31 @@ class BookCommand(commands.Cog):
             await ctx.send(strName)
         else:
             await ctx.send("Book list is empty!")
-    
+
+    @commands.command()
+    async def delbook(self, ctx, *args):
+        jsonBookList = open(bookPath)
+        bookList = json.load(jsonBookList)
+        if len(args) != 0:
+            if args[0].isnumeric():
+                if len(bookList["books"]) != 0:
+                    index = int(args[0]) - 1
+                    if (index + 1) > 0 and (index + 1) <= len(bookList["books"]):
+                        with open(bookPath) as json_file:
+                            data = json.load(json_file)
+                            data["books"].pop(index)
+                            await ctx.send("Book Removed!")
+                        with open(bookPath, 'w') as f:
+                            json.dump(data, f, indent = 4)
+                    else:
+                        await ctx.send("Parameter out of bounds.")
+                else:
+                    await ctx.send("List is empty")
+            else:
+                await ctx.send("Invalid parameter.")
+        else:
+            await ctx.send("Missing parameter.")
+
     @commands.command()
     async def addbook(self, ctx, *args):
         with open(bookPath) as json_file : # open file and copy all data
