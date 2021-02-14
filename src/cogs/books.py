@@ -19,9 +19,5 @@ class BookCommand(commands.Cog):
             await ctx.send(bookList["books"][i]["name"])
         
 
-    
-
-
-    
 def setup(bot):
     bot.add_cog(BookCommand(bot))
