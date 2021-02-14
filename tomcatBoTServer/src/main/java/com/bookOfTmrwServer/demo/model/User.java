@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class User {
     private String id;
-    private ArrayList<Book> bookArrayList = new ArrayList<>();
+    private ArrayList<Book> bookArrayList;
 
     public User(@JsonProperty("id")String id, @JsonProperty("books")ArrayList<Book>bookArrayList){
         this.id = id;
