@@ -39,8 +39,11 @@ class BookCommand(commands.Cog):
             bookName = ' '.join(str(elem) for elem in args)
             if len(bookList) != 0:
                 data = getUserData(usrId)
-                delFunc(bookName, usrId)
-                await ctx.send("Book Removed!")
+                if not checkDupes(bookName, usrId):
+                    delFunc(bookName, usrId)
+                    await ctx.send("Book Removed!")
+                else:
+                    await ctx.send("Book not found.")
             else:
                 await ctx.send("List is empty")
         else:
