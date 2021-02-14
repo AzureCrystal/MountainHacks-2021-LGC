@@ -5,6 +5,7 @@ import requests
 import random
 from components.dupes import checkDupes
 from discord.ext import commands
+from components.get import getUserData
 
 directory = os.path.dirname(os.path.abspath(__file__))
 bookPath = os.path.join(directory, '../books.json')
@@ -16,6 +17,7 @@ class Suggest(commands.Cog):
     @commands.command()
     async def suggest(self, ctx, *args):
         descWordCap = 1000
+        usrId = ctx.message.author.id
         if len(args) >= 1: 
             initResp = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + '\"' + str(args[0]).strip("\"") + '\"')
             if initResp.json()["totalItems"] != 0:
@@ -64,13 +66,12 @@ class Suggest(commands.Cog):
 
                 if str(reaction.emoji) == "✅":
                     await embedMsg.remove_reaction(reaction, user)
-                    if checkDupes(bookName):
-                        with open(bookPath) as json_file:
-                            data = json.load(json_file)
-                            listVar = data["books"]
-                            tempVar = {"name": bookName}
-                            listVar.append(tempVar)
-                            await ctx.send("Book Added!")
+                    if checkDupes(bookName, usrId):
+                        data = getUserData(usrId)
+                        listVar = data["books"]
+                        tempVar = {"name": bookName}
+                        listVar.append(tempVar)
+                        await ctx.send("Book Added!")
                         with open(bookPath, 'w') as f:
                             json.dump(data, f, indent = 4)
                     else:
