@@ -18,7 +18,7 @@ class HelpCommand(commands.Cog):
         helpText += "\tEnter the title of the book you would like to add.\n"
         helpText += "\n"
         # availability
-        helpText += "/addbook <ISBN>\n"
+        helpText += "/availability <ISBN>\n"
         helpText += "\tEnter the ISBN of the book you would like to check availability for.\n"
         helpText += "\n"
         # delbook
@@ -28,6 +28,10 @@ class HelpCommand(commands.Cog):
         # printbook
         helpText += "/printbook\n"
         helpText += "\tDisplays all the books in your list.\n"
+        helpText += "\n"
+        # preview
+        helpText += "/preview <Title>\n"
+        helpText += "\tEnter the title of the book you would like to preview.\n"
         helpText += "\n"
         # search
         helpText += "/search <Type> <\"Search term\"> <#ofResults>\n"
@@ -39,7 +43,7 @@ class HelpCommand(commands.Cog):
         helpText += "\t\t(Optional: Default 1) Enter the number of results you would like to receive.\n"
         helpText += "\n"
         # suggest
-        helpText += "/suggest <\"Search term\">\n"
+        helpText += "/suggest <Search terms>\n"
         helpText += "\tThis command recommends a random book based on your search.\n"
         helpText += "\n"
         helpText += "```\n"
