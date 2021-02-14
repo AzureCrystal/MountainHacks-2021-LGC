@@ -7,8 +7,8 @@ import sys
 sys.path.insert(0, '../components/')
 from discord.ext import commands
 from components.dupes import checkDupes
-from components.postJson import postFunc
-from components.getJson import getUserData
+from components.post import postFunc
+from components.get import getUserData
 #from discordPY.src.components import checkDupes, postFunc, getUserData
 
 directory = os.path.dirname(os.path.abspath(__file__))
@@ -71,12 +71,8 @@ class Suggest(commands.Cog):
                 if str(reaction.emoji) == "✅":
                     await embedMsg.remove_reaction(reaction, user)
                     if checkDupes(bookName, usrId):
-                        data = getUserData(usrId)
-                        listVar = data["books"]
-                        tempVar = {"name": bookName}
-                        listVar.append(tempVar)
-                        await ctx.send("Book Added!")
                         postFunc(bookName, usrId)
+                        await ctx.send("Book Added!")
                     else:
                         await ctx.send("This book is already in your library!")
                 elif str(reaction.emoji) == "❌":
