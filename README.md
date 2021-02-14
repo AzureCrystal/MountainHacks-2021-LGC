@@ -6,18 +6,30 @@ A Discord bot that searches a library of books and gives suggestions based on se
 
 Functions included:
 
-A help command 
- - lists out the list of functions for the bot 
+Help Command (/help)
+ - lists out the list of commands for the bot 
  
-Suggested command
- - gives a list of book recommandations based on genre selected 
+Suggestion Command (/suggest)
+ - gives a random book based on genre selected 
  
-Search Command 
+Search Command (/search)
  - gives a book title and description when given (title or subject or author) 
  
-Add books to users list 
- - adds a book towards the users library 
+Add Book to List (/addbook)
+ - adds a book towards the user's list
+
+Delete Book from List (/delbook)
+ - deletes a book from the user's list
+
+Print Book List (/printbook)
+ - prints the user's book list
  
- Notes:
- - Each user has it's own indiviual library booklist 
+Notes:
+ - Each user will have it's own indiviual library booklist (NOT IMPLEMENTED)
+ 
+How to Run:
+ - Create a file called .env in the src folder
+ - Get a Discord Bot API and use your API key in .env using:
+ - DISCORD_TOKEN="<YOUR_TOKEN>"
+ - To run the bot, run main.py
  
