@@ -1,8 +1,10 @@
 # MountainHacks-2021-LGC
 
-The Book of Tomorrow
+The Book of Tomorrow 
 
 A Discord bot that searches a library of books and gives suggestions based on search parameters
+
+The Discord bot can also store the User's favourite books into a database help in REST API made with Springboot(Tomcat)
 
 # Functions included:
 
