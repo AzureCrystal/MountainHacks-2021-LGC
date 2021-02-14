@@ -13,25 +13,34 @@ class HelpCommand(commands.Cog):
         print(name, id, "has used the help command.")
 
         helpText = "```\n"
+        # addbook
+        helpText += "/addbook <Title>\n"
+        helpText += "\tEnter the title of the book you would like to add.\n"
+        helpText += "\n"
+        # availability
+        helpText += "/addbook <ISBN>\n"
+        helpText += "\tEnter the ISBN of the book you would like to check availability for.\n"
+        helpText += "\n"
+        # delbook
+        helpText += "/delbook <Number>\n"
+        helpText += "\tDelete books from your list by number as given by the /printbook function.\n"
+        helpText += "\n"
+        # printbook
+        helpText += "/printbook\n"
+        helpText += "\tDisplays all the books in your list.\n"
+        helpText += "\n"
+        # search
         helpText += "/search <Type> <\"Search term\"> <#ofResults>\n"
         helpText += "\tType:\n"
         helpText += "\t\tOne of: title, author, subject\n"
-        helpText += "\tTerm:\n"
+        helpText += "\tSearch term:\n"
         helpText += "\t\tThis is the term you would like to search for.\n"
         helpText += "\t#ofResults:\n"
         helpText += "\t\t(Optional: Default 1) Enter the number of results you would like to receive.\n"
         helpText += "\n"
-        helpText += "/addbook <Title>\n"
-        helpText += "\tTitle:\n"
-        helpText += "\t\tEnter the title of the book\n"
-        helpText += "\t\tyou would like to add.\n"
-        helpText += "\n"
-        helpText += "/printbook\n"
-        helpText += "\tDisplays all the books in your list.\n"
-        helpText += "\n"
-        helpText += "/delbook <Number>\n"
-        helpText += "\tNumber:\n"
-        helpText += "\t\tEnter the number of the book you would like to delete.\n"
+        # suggest
+        helpText += "/suggest <\"Search term\">\n"
+        helpText += "\tThis command recommends a random book based on your search.\n"
         helpText += "\n"
         helpText += "```\n"
         await ctx.send(helpText)
