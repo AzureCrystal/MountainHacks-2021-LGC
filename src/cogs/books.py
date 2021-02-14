@@ -47,20 +47,23 @@ class BookCommand(commands.Cog):
             else:
                 await ctx.send("Invalid parameter.")
         else:
-            await ctx.send("Missing parameter.")
+            await ctx.send("Missing parameter. Use: /delbook <Number>")
 
     @commands.command()
     async def addbook(self, ctx, *args):
-        with open(bookPath) as json_file : # open file and copy all data
-            books_loaded = json.load(json_file)
-        books_loaded["books"].append({"name":' '.join(str(elem) for elem in args)})
-        if(not checkDupes(' '.join(str(elem) for elem in args))):
-            await ctx.send("This book is already in your library!")
-        else:
-            with open(bookPath,'w') as json_dumped :
-                json.dump(books_loaded,json_dumped,indent = 4,sort_keys = True)
+        if len(args) != 0:
+            with open(bookPath) as json_file : # open file and copy all data
+                books_loaded = json.load(json_file)
+            books_loaded["books"].append({"name":' '.join(str(elem) for elem in args)})
+            if(not checkDupes(' '.join(str(elem) for elem in args))):
+                await ctx.send("This book is already in your library!")
+            else:
+                with open(bookPath,'w') as json_dumped :
+                    json.dump(books_loaded,json_dumped,indent = 4,sort_keys = True)
 
-            await ctx.send("Book added!")
+                await ctx.send("Book added!")
+        else:
+            await ctx.send("Missing parameter. Use: /addbook <Title>")
 
 
 def setup(bot):

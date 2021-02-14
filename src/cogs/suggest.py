@@ -80,7 +80,7 @@ class Suggest(commands.Cog):
             else:
                 await ctx.send("No books found.")
         else:
-            await ctx.send("Missing parameter.")
+            await ctx.send("Missing parameter. Use: /suggest <\"Search term\">")
 
 def setup(bot):
     bot.add_cog(Suggest(bot))
