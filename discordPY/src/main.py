@@ -7,7 +7,7 @@ from discord.ext.commands import CommandNotFound
 from dotenv import load_dotenv
 
 load_dotenv()
-client = commands.Bot(command_prefix = '/')
+client = commands.Bot(command_prefix = '!')
 client.remove_command("help")
 
 token = os.getenv('DISCORD_TOKEN')

@@ -23,13 +23,13 @@ class Suggest(commands.Cog):
         descWordCap = 1000
         usrId = ctx.message.author.id
         if len(args) >= 1: 
-            initResp = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + '\"' + str(args[0]).strip("\"") + '\"')
+            initResp = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + '\"' + '+'.join(str(elem) for elem in args) + '\"')
             if initResp.json()["totalItems"] != 0:
                 if initResp.json()["totalItems"] >= 40:
                     maxVal = 40
                 else:
                     maxVal = initResp.json()["totalItems"]
-                response = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + '\"' + str(args[0]).strip("\"") + '\"' + "&maxResults=" + str(maxVal))
+                response = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + '\"' + '+'.join(str(elem) for elem in args) + '\"' + "&maxResults=" + str(maxVal))
                 random.seed()
                 print(maxVal)
                 index = random.randint(0,int(maxVal)-1)
@@ -80,7 +80,7 @@ class Suggest(commands.Cog):
             else:
                 await ctx.send("No books found.")
         else:
-            await ctx.send("Missing parameter. Use: /suggest <\"Search term\">")
+            await ctx.send("Missing parameter. Use: !suggest <Search Term>")
 
 def setup(bot):
     bot.add_cog(Suggest(bot))

@@ -47,7 +47,7 @@ class BookCommand(commands.Cog):
             else:
                 await ctx.send("List is empty")
         else:
-            await ctx.send("Missing parameter. Use: /delbook <Book Name>")
+            await ctx.send("Missing parameter. Use: !delbook <Title>")
 
     @commands.command()
     async def addbook(self, ctx, *args):
@@ -61,7 +61,7 @@ class BookCommand(commands.Cog):
                 postFunc(tmpStr, usrId)
                 await ctx.send("Book added!")
         else:
-            await ctx.send("Missing parameter. Use: /addbook <Title>")
+            await ctx.send("Missing parameter. Use: !addbook <Title>")
 
 
 def setup(bot):

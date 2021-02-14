@@ -81,7 +81,7 @@ class Search(commands.Cog):
             else:
                 await ctx.send("No books found.")
         else:
-            await ctx.send("Invalid parameters. Use: /search <Type> <\"Search term\"> <#ofResults>")
+            await ctx.send("Invalid parameters. Use: !search <Type> <\"Search term\"> <#ofResults>")
 
 
     @commands.command()
@@ -96,7 +96,7 @@ class Search(commands.Cog):
             result += ("Country: " + str(googleBooksList["saleInfo"]["country"]) + "\n")
             await ctx.send(result)
         else:
-            await ctx.send("Invalid ISBN given. Use: /availability <ISBN number>")
+            await ctx.send("Invalid ISBN given. Use: !availability <ISBN number>")
 
     @commands.command()
     async def preview(self, ctx, *args):
@@ -110,7 +110,7 @@ class Search(commands.Cog):
             result += ("Canonical Volume Link: " + googleBooksList["volumeInfo"]["canonicalVolumeLink"] + "\n")
             await ctx.send(result)
         else:
-            await ctx.send("Invalid ISBN given. Use: /availability <ISBN number>")
+            await ctx.send("Invalid ISBN given. Use: !preview <ISBN number>")
 
    
 
