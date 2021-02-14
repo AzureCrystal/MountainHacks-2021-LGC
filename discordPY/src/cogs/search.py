@@ -87,7 +87,6 @@ class Search(commands.Cog):
 
     @commands.command()
     async def availability(self, ctx, *args):
-<<<<<<< HEAD:discordPY/src/cogs/search.py
         response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + str(args[0]))
         if "items" in response.json():
             googleBooksList = response.json()['items'][0]
@@ -103,22 +102,13 @@ class Search(commands.Cog):
     @commands.command()
     async def preview(self, ctx, *args):
         response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" +  str(args[0]) )
-=======
-        response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + '\"' + str(args[1]) + '\"')
->>>>>>> master:src/cogs/search.py
         if "items" in response.json():
             googleBooksList = response.json()['items'][0]
             result = ""
-<<<<<<< HEAD:discordPY/src/cogs/search.py
             result += ("Preview Version: " + googleBooksList["volumeInfo"]["contentVersion"] + "\n")
             result += ("Preview Link: " + googleBooksList["volumeInfo"]["previewLink"] + "\n")
             result += ("Info Link: " + googleBooksList["volumeInfo"]["infoLink"] + "\n")
             result += ("Canonical Volume Link: " + googleBooksList["volumeInfo"]["canonicalVolumeLink"] + "\n")
-=======
-            result += ("PDF available: " + googleBooksList["pdf"] + "\n")
-            result += ("Access info: " + googleBooksList["accessinfo"] + "\n")
-            result += ("Sales info: " + googleBooksList["saleInfo"] + "\n")
->>>>>>> master:src/cogs/search.py
             await ctx.send(result)
         else:
             await ctx.send("Invalid ISBN given. Use: /availability <ISBN number>")
