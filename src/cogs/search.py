@@ -5,7 +5,7 @@ import json
 from discord.ext import commands
 
 directory = os.path.dirname(os.path.abspath(__file__))
-bookPath = os.path.join(directory, '../books.json')
+bookPath = os.path.join(directory, '../assets/books.json')
 
 class Search(commands.Cog):
     def __init__(self, bot):

@@ -1,11 +1,11 @@
 import discord
 import json
 import os
-
 from discord.ext import commands
+from components.dupes import checkDupes
 
 directory = os.path.dirname(os.path.abspath(__file__))
-bookPath = os.path.join(directory, '../books.json')
+bookPath = os.path.join(directory, '../assets/books.json')
 
 class BookCommand(commands.Cog):
     def __init__(self, bot):
@@ -54,10 +54,13 @@ class BookCommand(commands.Cog):
         with open(bookPath) as json_file : # open file and copy all data
             books_loaded = json.load(json_file)
         books_loaded["books"].append({"name":' '.join(str(elem) for elem in args)})
-        with open(bookPath,'w') as json_dumped :
-            json.dump(books_loaded,json_dumped,indent = 4,sort_keys = True)
+        if(not checkDupes(' '.join(str(elem) for elem in args))):
+            await ctx.send("This book is already in your library!")
+        else:
+            with open(bookPath,'w') as json_dumped :
+                json.dump(books_loaded,json_dumped,indent = 4,sort_keys = True)
 
-        await ctx.send("Book added!")
+            await ctx.send("Book added!")
 
 
 def setup(bot):
