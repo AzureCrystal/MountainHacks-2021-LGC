@@ -3,3 +3,5 @@
 .env
 googleApiKey
 client_secrets.json
+.idea
+.vscode
