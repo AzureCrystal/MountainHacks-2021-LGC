@@ -27,6 +27,11 @@ class Search(commands.Cog):
                     
                     googleBooksList = response.json()['items']
                     result = "```\n"
+                    if "imageLinks" in googleBooksList[booksIterator]["volumeInfo"]:
+                        if "thumbnail" in googleBooksList[booksIterator]["volumeInfo"]["imageLinks"]:
+                            await ctx.send(str(googleBooksList[booksIterator]["volumeInfo"]["imageLinks"]["thumbnail"]))
+                        elif "smallThumbnail" in googleBooksList[booksIterator]["volumeInfo"]["imageLinks"]:
+                            await ctx.send(str(googleBooksList[booksIterator]["volumeInfo"]["imageLinks"]["smallThumbnail"]))
                     if "title" in googleBooksList[booksIterator]["volumeInfo"]:
                         result += ("Title: " + str(googleBooksList[booksIterator]["volumeInfo"]["title"]) + "\n")
                         bookName = str(googleBooksList[booksIterator]["volumeInfo"]["title"])
@@ -75,18 +80,29 @@ class Search(commands.Cog):
 
     @commands.command()
     async def availability(self, ctx, *args):
-        response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + '\"' + str(args[1]) + '\"')
+        response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + str(args[0]))
         if "items" in response.json():
-            googleBooksList = response.json()['items']
+            googleBooksList = response.json()['items'][0]
             result = ""
-            result += ("PDF available: " + googleBooksList["pdf"] + "\n")
-            result += ("Access info: " + googleBooksList["accessinfo"] + "\n")
-            result += ("Sales info: " + googleBooksList["saleInfo"] + "\n")
+            result += ("PDF available: " + str(googleBooksList["accessInfo"]["pdf"]["isAvailable"]) + "\n")
+            result += ("Ebook available: " + str(googleBooksList["saleInfo"]["isEbook"]) + "\n")
+            result += ("Saleability: " + str(googleBooksList["saleInfo"]["saleability"]) + "\n")
+            
             await ctx.send(result)
         else:
             await ctx.send("Invalid ISBN given. Use: /availability <ISBN number>")
 
-   
+    @commands.command()
+    async def preview(self, ctx, *args):
+        response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" +  str(args[0]) )
+        if "items" in response.json():
+            googleBooksList = response.json()['items']
+            result = ""
+            
+            
+        else:
+            await ctx.send("Invalid ISBN given. Use: /availability <ISBN number>")
+
 
 def setup(bot):
     bot.add_cog(Search(bot))
