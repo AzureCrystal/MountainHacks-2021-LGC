@@ -15,9 +15,15 @@ class BookCommand(commands.Cog):
     async def printbook(self, ctx):
         jsonBookList = open(bookPath)
         bookList = json.load(jsonBookList)
-        for i in range(len(bookList["books"])):
-            await ctx.send(bookList["books"][i]["name"])
-        print()
+        if len(bookList["books"]) != 0:
+            strName = "```\n"
+            for i in range(len(bookList["books"])):
+                listNum = i + 1
+                strName += str(listNum) + ". " + bookList["books"][i]["name"] + "\n"
+            strName += "\n```"
+            await ctx.send(strName)
+        else:
+            await ctx.send("Book list is empty!")
     
     @commands.command()
     async def addbook(self, ctx, *args):
