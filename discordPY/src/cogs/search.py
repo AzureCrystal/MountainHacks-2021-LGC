@@ -3,9 +3,10 @@ import requests
 import os
 import json
 from discord.ext import commands
+from components.dupes import checkDupes
 
 directory = os.path.dirname(os.path.abspath(__file__))
-bookPath = os.path.join(directory, '../books.json')
+bookPath = os.path.join(directory, '../assets/books.json')
 
 class Search(commands.Cog):
     def __init__(self, bot):
@@ -17,7 +18,7 @@ class Search(commands.Cog):
         bookListLength = 1
         descWordCap = 1000
         if args[0] in parameters:
-            response = requests.get("https://www.googleapis.com/books/v1/volumes?q=" + args[0] + ":" + '\"' + str(args[1]).strip("\"") + '\"')
+            response = requests.get("https://www.googleapis.com/books/v1/volumes?q=" + args[0] + ":" + '\"' + str(args[1]).strip("\"") + '\"' + "&maxResults=40")
             if "items" in response.json():
                 if (len(args) == 3):
                     if args[2].isnumeric():
@@ -64,25 +65,29 @@ class Search(commands.Cog):
 
                     if str(reaction.emoji) == "✅":
                         await embedMsg.remove_reaction(reaction, user)
-                        with open(bookPath) as json_file:
-                            data = json.load(json_file)
-                            listVar = data["books"]
-                            tempVar = {"name": bookName}
-                            listVar.append(tempVar)
-                            await ctx.send("Book Added!")
-                        with open(bookPath, 'w') as f:
-                            json.dump(data, f, indent = 4)
+                        if checkDupes(bookName):
+                            with open(bookPath) as json_file:
+                                data = json.load(json_file)
+                                listVar = data["books"]
+                                tempVar = {"name": bookName}
+                                listVar.append(tempVar)
+                                await ctx.send("Book Added!")
+                            with open(bookPath, 'w') as f:
+                                json.dump(data, f, indent = 4)
+                        else:
+                            await ctx.send("This book is already in your library!")
                     elif str(reaction.emoji) == "❌":
                         await embedMsg.remove_reaction(reaction, user)
 
             else:
-                ctx.send("No books found.")
+                await ctx.send("No books found.")
         else:
-            await ctx.send("Invalid parameters. Use: /search <type> <query>")
+            await ctx.send("Invalid parameters. Use: /search <Type> <\"Search term\"> <#ofResults>")
 
 
     @commands.command()
     async def availability(self, ctx, *args):
+<<<<<<< HEAD:discordPY/src/cogs/search.py
         response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + str(args[0]))
         if "items" in response.json():
             googleBooksList = response.json()['items'][0]
@@ -98,17 +103,27 @@ class Search(commands.Cog):
     @commands.command()
     async def preview(self, ctx, *args):
         response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" +  str(args[0]) )
+=======
+        response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + '\"' + str(args[1]) + '\"')
+>>>>>>> master:src/cogs/search.py
         if "items" in response.json():
             googleBooksList = response.json()['items'][0]
             result = ""
+<<<<<<< HEAD:discordPY/src/cogs/search.py
             result += ("Preview Version: " + googleBooksList["volumeInfo"]["contentVersion"] + "\n")
             result += ("Preview Link: " + googleBooksList["volumeInfo"]["previewLink"] + "\n")
             result += ("Info Link: " + googleBooksList["volumeInfo"]["infoLink"] + "\n")
             result += ("Canonical Volume Link: " + googleBooksList["volumeInfo"]["canonicalVolumeLink"] + "\n")
+=======
+            result += ("PDF available: " + googleBooksList["pdf"] + "\n")
+            result += ("Access info: " + googleBooksList["accessinfo"] + "\n")
+            result += ("Sales info: " + googleBooksList["saleInfo"] + "\n")
+>>>>>>> master:src/cogs/search.py
             await ctx.send(result)
         else:
             await ctx.send("Invalid ISBN given. Use: /availability <ISBN number>")
 
+   
 
 def setup(bot):
     bot.add_cog(Search(bot))

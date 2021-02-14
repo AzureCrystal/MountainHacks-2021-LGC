@@ -14,7 +14,7 @@ token = os.getenv('DISCORD_TOKEN')
 
 bookList = {}
 
-extensionList = ['cogs.help', 'cogs.search', 'cogs.books']
+extensionList = ['cogs.help', 'cogs.search', 'cogs.books', 'cogs.suggest']
 
 if __name__ == '__main__':
   for extension in extensionList:
