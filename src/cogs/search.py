@@ -21,7 +21,7 @@ class Search(commands.Cog):
             if "items" in response.json():
                 if (len(args) == 3):
                     if args[2].isnumeric():
-                        bookListLength = (int(args[2]) + 1)
+                        bookListLength = int(args[2])
                 for booksIterator in range(bookListLength):
                     print(booksIterator)
                     
@@ -45,14 +45,17 @@ class Search(commands.Cog):
                             desc = desc[:descWordCap] + "..."
                         result += desc
                     result += "\n```"
-                    
+ 
                     def check(reaction, user):
-                        return user == ctx.author and str(reaction.emoji) in ['\N{WHITE HEAVY CHECK MARK}']
+                        return user == ctx.author and str(reaction.emoji) in ["✅", "❌"]
 
                     embedMsg = await ctx.send(result)                
-                    await embedMsg.add_reaction('\N{WHITE HEAVY CHECK MARK}')
-                    confirmation = await self.bot.wait_for("reaction_add", check=check)
-                    if confirmation:
+                    await embedMsg.add_reaction('✅')
+                    await embedMsg.add_reaction('❌')
+                    reaction, user = await self.bot.wait_for("reaction_add", check=check)
+
+                    if str(reaction.emoji) == "✅":
+                        await embedMsg.remove_reaction(reaction, user)
                         with open(bookPath) as json_file:
                             data = json.load(json_file)
                             listVar = data["books"]
@@ -61,10 +64,14 @@ class Search(commands.Cog):
                             await ctx.send("Book Added!")
                         with open(bookPath, 'w') as f:
                             json.dump(data, f, indent = 4)
+                    elif str(reaction.emoji) == "❌":
+                        await embedMsg.remove_reaction(reaction, user)
+
             else:
                 ctx.send("No books found.")
         else:
             await ctx.send("Invalid parameters. Use: /search <type> <query>")
+
 
     @commands.command()
     async def availability(self, ctx, *args):
