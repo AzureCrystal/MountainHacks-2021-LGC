@@ -31,8 +31,8 @@ class HelpCommand(commands.Cog):
         helpText += "\tDisplays all the books in your list.\n"
         helpText += "\n"
         # preview
-        helpText += "!preview <Title>\n"
-        helpText += "\tEnter the title of the book you would like to preview.\n"
+        helpText += "!preview <ISBN>\n"
+        helpText += "\tEnter the ISBN of the book you would like to preview.\n"
         helpText += "\n"
         # search
         helpText += "!search <Type> <\"Search term\"> <#ofResults>\n"
