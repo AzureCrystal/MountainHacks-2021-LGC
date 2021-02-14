@@ -22,8 +22,9 @@ class HelpCommand(commands.Cog):
         helpText += "\tEnter the ISBN of the book you would like to check availability for.\n"
         helpText += "\n"
         # delbook
-        helpText += "/delbook <Number>\n"
+        helpText += "/delbook <Title>\n"
         helpText += "\tDelete books from your list by number as given by the /printbook function.\n"
+        helpText += "\t<Title> is case sensetive!\n"
         helpText += "\n"
         # printbook
         helpText += "/printbook\n"
