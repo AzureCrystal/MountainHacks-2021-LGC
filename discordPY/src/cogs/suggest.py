@@ -72,8 +72,8 @@ class Suggest(commands.Cog):
                         tempVar = {"name": bookName}
                         listVar.append(tempVar)
                         await ctx.send("Book Added!")
-                        with open(bookPath, 'w') as f:
-                            json.dump(data, f, indent = 4)
+                        for book in data:
+                            postFunc(book, usrId)
                     else:
                         await ctx.send("This book is already in your library!")
                 elif str(reaction.emoji) == "❌":
