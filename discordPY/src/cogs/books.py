@@ -13,7 +13,8 @@ class BookCommand(commands.Cog):
 
     @commands.command()
     async def printbook(self, ctx):
-        jsonBookList = open(bookPath)
+        usrId = ctx.message.author.id
+        jsonBookList = getUserData(usrId)
         bookList = json.load(jsonBookList)
         if len(bookList["books"]) != 0:
             strName = "```\n"
@@ -27,17 +28,17 @@ class BookCommand(commands.Cog):
 
     @commands.command()
     async def delbook(self, ctx, *args):
-        jsonBookList = open(bookPath)
+        usrId = ctx.message.author.id
+        jsonBookList = getUserData(usrId)
         bookList = json.load(jsonBookList)
         if len(args) != 0:
             if args[0].isnumeric():
                 if len(bookList["books"]) != 0:
                     index = int(args[0]) - 1
                     if (index + 1) > 0 and (index + 1) <= len(bookList["books"]):
-                        with open(bookPath) as json_file:
-                            data = json.load(json_file)
-                            data["books"].pop(index)
-                            await ctx.send("Book Removed!")
+                        data = getUserData(usrId)
+                        data["books"].pop(index)
+                        await ctx.send("Book Removed!")
                         with open(bookPath, 'w') as f:
                             json.dump(data, f, indent = 4)
                     else:
@@ -51,11 +52,11 @@ class BookCommand(commands.Cog):
 
     @commands.command()
     async def addbook(self, ctx, *args):
+        usrId = ctx.message.author.id
         if len(args) != 0:
-            with open(bookPath) as json_file : # open file and copy all data
-                books_loaded = json.load(json_file)
+            books_loaded = getUserData(usrId)
             books_loaded["books"].append({"name":' '.join(str(elem) for elem in args)})
-            if(not checkDupes(' '.join(str(elem) for elem in args))):
+            if(not checkDupes(' '.join(str(elem) for elem in args)), usrId):
                 await ctx.send("This book is already in your library!")
             else:
                 with open(bookPath,'w') as json_dumped :

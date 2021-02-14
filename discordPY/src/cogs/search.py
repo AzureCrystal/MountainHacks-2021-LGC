@@ -5,6 +5,7 @@ import json
 from discord.ext import commands
 from components.post import postFunc
 from components.dupes import checkDupes
+from components.get import getUserData
 
 directory = os.path.dirname(os.path.abspath(__file__))
 bookPath = os.path.join(directory, '../assets/books.json')
@@ -66,14 +67,13 @@ class Search(commands.Cog):
 
                     if str(reaction.emoji) == "✅":
                         await embedMsg.remove_reaction(reaction, user)
-                        postFunc(bookName, user.id) 
-                        if checkDupes(bookName):
-                            with open(bookPath) as json_file:
-                                data = json.load(json_file)
-                                listVar = data["books"]
-                                tempVar = {"name": bookName}
-                                listVar.append(tempVar)
-                                await ctx.send("Book Added!")
+                        if checkDupes(bookName, usrId):
+                            data = getUserData(usrId)
+                            data = json.load(json_file)
+                            listVar = data["books"]
+                            tempVar = {"name": bookName}
+                            listVar.append(tempVar)
+                            await ctx.send("Book Added!")
                             with open(bookPath, 'w') as f:
                                 json.dump(data, f, indent = 4)
                         else:
