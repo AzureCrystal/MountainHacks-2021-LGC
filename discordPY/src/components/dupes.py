@@ -1,6 +1,6 @@
 import os
 import json
-
+from components.get import getUserData
 directory = os.path.dirname(os.path.abspath(__file__))
 bookPath = os.path.join(directory, '../assets/books.json')
 
