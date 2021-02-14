@@ -2,10 +2,12 @@ import discord
 import requests
 import os
 import json
+import sys
 from discord.ext import commands
-from components.post import postFunc
 from components.dupes import checkDupes
+from components.post import postFunc
 from components.get import getUserData
+#from discordPY.src.components import checkDupes, postFunc, getUserData
 
 directory = os.path.dirname(os.path.abspath(__file__))
 bookPath = os.path.join(directory, '../assets/books.json')
@@ -69,14 +71,8 @@ class Search(commands.Cog):
                     if str(reaction.emoji) == "✅":
                         await embedMsg.remove_reaction(reaction, user)
                         if checkDupes(bookName, usrId):
-                            json_file = getUserData(usrId)
-                            data = json.load(json_file)
-                            listVar = data["books"]
-                            tempVar = {"name": bookName}
-                            listVar.append(tempVar)
+                            postFunc(bookName, usrId)
                             await ctx.send("Book Added!")
-                            for book in data:
-                                postFunc(book, usrId)
                         else:
                             await ctx.send("This book is already in your library!")
                     elif str(reaction.emoji) == "❌":
