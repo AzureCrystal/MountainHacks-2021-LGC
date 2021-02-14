@@ -31,8 +31,9 @@ public class controller {
         }
     }
 
-    @GetMapping("/api/userList/{id}")
+    @GetMapping("/api/userList/getBook/{id}")
     public ArrayList<Book> getBookList (@PathVariable String id, HttpServletResponse response) throws IOException{
+        ObjectMapper mapper = new ObjectMapper();
         for (int i = 0; i < userArrayList.size(); i++){
             if (userArrayList.get(i).getId().equals(id)){
                 System.out.println("getBookList called, returning userArrayList.get(id)");
@@ -40,17 +41,20 @@ public class controller {
                 return userArrayList.get(i).getBookArrayList();
             }
         }
-        System.out.println("Invalid ID, returning null");
+        ArrayList<Book> bookArrayList = new ArrayList<>();
+        User user = new User(id, bookArrayList);
+        userArrayList.add(user);
+        mapper.writeValue(Paths.get("src/main/resources/data/userBookList.json").toFile(), userArrayList);
 
         response.resetBuffer();
         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         response.getOutputStream().print(response.getStatus());
         response.flushBuffer();
-        response.sendError(HttpServletResponse.SC_NOT_FOUND, "ID invalid");
-        return null;
+        response.sendError(HttpServletResponse.SC_NOT_FOUND, "ID not found. Created.");
+        return user.getBookArrayList();
     }
 
-    @PostMapping("/api/userList/{id}")
+    @PostMapping("/api/userList/addBook/{id}")
     public void addBookToUser(@PathVariable String id, @RequestBody Book book, HttpServletResponse response){
         try{
             Boolean foundID = false;
@@ -64,6 +68,7 @@ public class controller {
             }
             //add new user
             if (!foundID){
+                System.out.println("Found new user!");
                 ArrayList<Book> bookArrayList = new ArrayList<>();
                 bookArrayList.add(book);
                 User user = new User(id, bookArrayList);

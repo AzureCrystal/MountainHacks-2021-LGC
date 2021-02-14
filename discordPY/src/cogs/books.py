@@ -5,7 +5,8 @@ import sys
 sys.path.insert(0, '../components/')
 from discord.ext import commands
 from components.dupes import checkDupes
-from components.post import postFunc, delFunc
+from components.post import postFunc
+from components.delete import delFunc
 from components.get import getUserData
 #from discordPY.src.components import checkDupes, postFunc, getUserData
 
@@ -50,6 +51,7 @@ class BookCommand(commands.Cog):
         usrId = ctx.message.author.id
         if len(args) != 0:
             tmpStr = ' '.join(str(elem) for elem in args)
+            print(tmpStr)
             if (not checkDupes(tmpStr, usrId)):
                 await ctx.send("This book is already in your library!")
             else:
